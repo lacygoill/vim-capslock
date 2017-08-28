@@ -37,8 +37,8 @@ fu! s:enable(mode, permanent) abort "{{{1
             au InsertLeave   * call s:capslock_insert_leave()
             au InsertCharPre * if s:is_active('i')
                             \|     let v:char = v:char ==# tolower(v:char)
-                            \?         toupper(v:char)
-                            \:         tolower(v:char)
+                            \?                      toupper(v:char)
+                            \:                      tolower(v:char)
                             \| endif
         augroup END
 
