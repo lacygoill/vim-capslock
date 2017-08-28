@@ -4,23 +4,23 @@ endfu
 
 fu! s:capslock_insert_leave() abort "{{{1
     " If we're permanently in capslock mode, don't do anything.
-    if get(b: 'capslock_permanent', 0)
-    "                               │
-    "                               └─ we're not by default:
-    "                                  we're PERMANENTLY in capslock mode,
-    "                                  iff we hit `c C-l` from normal mode,
-    "                                  but not if we've hit `C-l` from insert mode
+    if get(b:, 'capslock_permanently', 0)
+    "                                  │
+    "                                  └─ we're not by default:
+    "                                     we're permanently in capslock mode,
+    "                                     IFF we hit `c C-l` from normal mode,
+    "                                     but not if we've hit `C-l` from insert mode
         return
     endif
     call s:disable('i', 0)
 endfu
 
-fu! s:disable(mode, permanent) abort "{{{1
+fu! s:disable(mode, permanently) abort "{{{1
     if a:mode == 'i'
         au! my_capslock
         aug! my_capslock
-        if a:permanent
-            unlet! b:capslock_permanent
+        if a:permanently
+            unlet! b:capslock_permanently
         endif
 
     elseif a:mode == 'c'
@@ -37,7 +37,7 @@ fu! s:disable(mode, permanent) abort "{{{1
     redraws
 endfu
 
-fu! s:enable(mode, permanent) abort "{{{1
+fu! s:enable(mode, permanently) abort "{{{1
     if a:mode == 'i'
         augroup my_capslock
             au!
@@ -49,7 +49,7 @@ fu! s:enable(mode, permanent) abort "{{{1
                             \| endif
         augroup END
 
-        let b:capslock_permanent = a:permanent
+        let b:capslock_permanently = a:permanently
 
     elseif a:mode == 'c'
         let i = char2nr('A')
@@ -66,13 +66,13 @@ endfu
 fu! s:is_active(mode) abort "{{{1
     if a:mode == 'i'
         return exists('#my_capslock')
-    else
+    elseif a:mode == 'c'
         return maparg('a', 'c') ==# 'A'
     endif
 endfu
 
 fu! capslock#toggle(mode, ...) abort "{{{1
-    let permanent = a:0
-    call s:{s:is_active(a:mode) ? 'disable' : 'enable'}(a:mode, permanent)
+    let permanently = a:0
+    call s:{s:is_active(a:mode) ? 'disable' : 'enable'}(a:mode, permanently)
     return ''
 endfu
