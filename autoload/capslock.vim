@@ -19,8 +19,8 @@ fu! s:disable(mode, persistent) abort "{{{1
     elseif a:mode == 'c'
         let i = char2nr('A')
         while i <= char2nr('Z')
-             sil! exe a:mode.'unmap <buffer> '.nr2char(i)
-             sil! exe a:mode.'unmap <buffer> '.nr2char(i+32)
+             sil! exe 'cunmap <buffer> '.nr2char(i)
+             sil! exe 'cunmap <buffer> '.nr2char(i+32)
             let i += 1
         endwhile
     endif
@@ -35,8 +35,7 @@ fu! s:enable(mode, persistent) abort "{{{1
         augroup my_capslock
             au!
             au InsertLeave   * call s:capslock_insert_leave()
-            au InsertCharPre *
-                            \  if s:is_active('i')
+            au InsertCharPre * if s:is_active('i')
                             \|     let v:char = v:char ==# tolower(v:char)
                             \?         toupper(v:char)
                             \:         tolower(v:char)
@@ -48,8 +47,8 @@ fu! s:enable(mode, persistent) abort "{{{1
     elseif a:mode == 'c'
         let i = char2nr('A')
         while i <= char2nr('Z')
-            exe a:mode.'noremap <buffer> '.nr2char(i).' '.nr2char(i+32)
-            exe a:mode.'noremap <buffer> '.nr2char(i+32).' '.nr2char(i)
+            exe 'cno <buffer> '.nr2char(i).' '.nr2char(i+32)
+            exe 'cno <buffer> '.nr2char(i+32).' '.nr2char(i)
             let i += 1
         endwhile
     endif
