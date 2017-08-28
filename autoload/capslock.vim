@@ -2,7 +2,7 @@ fu! CapsLock_stl(...) abort "{{{1
     return s:is_active('i') ? '[Caps]' : ''
 endfu
 
-fu! s:capslock_leave_insert() abort "{{{1
+fu! s:capslock_insert_leave() abort "{{{1
     if !get(b:, 'capslock_persistent', 0)
         call s:disable('i')
     endif
@@ -30,8 +30,7 @@ fu! s:enable(mode, ...) abort "{{{1
     if a:mode == 'i'
         augroup my_capslock
             au!
-            au User Flags call Hoist('window', 'CapsLock_stl')
-            au InsertLeave   * call s:capslock_leave_insert()
+            au InsertLeave   * call s:capslock_insert_leave()
             au InsertCharPre *
                             \  if s:is_active('i')
                             \|     let v:char = v:char ==# tolower(v:char)
