@@ -40,9 +40,8 @@ fu! s:enable(mode, ...) abort "{{{1
         augroup END
 
         let b:capslock_persistent = a:0
-    endif
 
-    if a:mode == 'c'
+    elseif a:mode == 'c'
         let i = char2nr('A')
         while i <= char2nr('Z')
             exe a:mode.'noremap <buffer> '.nr2char(i).' '.nr2char(i+32)
@@ -50,6 +49,7 @@ fu! s:enable(mode, ...) abort "{{{1
             let i += 1
         endwhile
     endif
+
     redraws
     return ''
 endfu
