@@ -8,11 +8,11 @@ fu! s:capslock_insert_leave() abort "{{{1
     endif
 endfu
 
-fu! s:disable(mode, persistent) abort "{{{1
+fu! s:disable(mode, permanent) abort "{{{1
     if a:mode == 'i'
         au! my_capslock
         aug! my_capslock
-        if a:persistent
+        if a:permanent
             unlet! b:capslock_permanent
         endif
 
@@ -30,7 +30,7 @@ fu! s:disable(mode, persistent) abort "{{{1
     redraws
 endfu
 
-fu! s:enable(mode, persistent) abort "{{{1
+fu! s:enable(mode, permanent) abort "{{{1
     if a:mode == 'i'
         augroup my_capslock
             au!
@@ -42,7 +42,7 @@ fu! s:enable(mode, persistent) abort "{{{1
                             \| endif
         augroup END
 
-        let b:capslock_permanent = a:persistent
+        let b:capslock_permanent = a:permanent
 
     elseif a:mode == 'c'
         let i = char2nr('A')
@@ -65,7 +65,7 @@ fu! s:is_active(mode) abort "{{{1
 endfu
 
 fu! capslock#toggle(mode, ...) abort "{{{1
-    let persistent = a:0
-    call s:{s:is_active(a:mode) ? 'disable' : 'enable'}(a:mode, persistent)
+    let permanent = a:0
+    call s:{s:is_active(a:mode) ? 'disable' : 'enable'}(a:mode, permanent)
     return ''
 endfu
