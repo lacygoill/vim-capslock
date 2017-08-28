@@ -1,4 +1,4 @@
-fu! CapsLock_stl(...) abort "{{{1
+fu! CapsLock_stl() abort "{{{1
     return s:is_active('i') ? '[Caps]' : ''
 endfu
 
@@ -18,12 +18,13 @@ fu! s:disable(mode) abort "{{{1
         while i <= char2nr('Z')
              sil! exe a:mode.'unmap <buffer> '.nr2char(i)
              sil! exe a:mode.'unmap <buffer> '.nr2char(i+32)
-            let i = i + 1
+            let i += 1
         endwhile
     endif
 
+    " Since the capslock mode is local to a buffer, there's no need to update
+    " all statuslines. Hence, no bang after `:redrawstatus`.
     redraws
-    return ''
 endfu
 
 fu! s:enable(mode, ...) abort "{{{1
@@ -51,7 +52,6 @@ fu! s:enable(mode, ...) abort "{{{1
     endif
 
     redraws
-    return ''
 endfu
 
 fu! s:is_active(mode) abort "{{{1
@@ -66,10 +66,11 @@ fu! capslock#toggle(mode, ...) abort "{{{1
     let persistent = a:0
 
     if s:is_active(a:mode)
-        return s:disable(a:mode)
+        call s:disable(a:mode)
     elseif persistent
-        return s:enable(a:mode, 1)
+        call s:enable(a:mode, 1)
     else
-        return s:enable(a:mode)
+        call s:enable(a:mode)
     endif
+    return ''
 endfu
