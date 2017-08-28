@@ -3,17 +3,16 @@ fu! CapsLock_stl() abort "{{{1
 endfu
 
 fu! s:capslock_insert_leave() abort "{{{1
-    " if we are NOT PERMANENTLY in capslock mode
-    if !get(b:, 'capslock_permanent', 0)
-    "                                 │
-    "                                 └─ we're not by default:
-    "                                    we're PERMANENTLY in capslock mode,
-    "                                    iff we hit `c C-l` from normal mode,
-    "                                    but not if we've hit `C-l` from insert mode
-    "
-    " … then get out of capslock mode
-        call s:disable('i', 0)
+    " If we're permanently in capslock mode, don't do anything.
+    if get(b: 'capslock_permanent', 0)
+    "                               │
+    "                               └─ we're not by default:
+    "                                  we're PERMANENTLY in capslock mode,
+    "                                  iff we hit `c C-l` from normal mode,
+    "                                  but not if we've hit `C-l` from insert mode
+        return
     endif
+    call s:disable('i', 0)
 endfu
 
 fu! s:disable(mode, permanent) abort "{{{1
