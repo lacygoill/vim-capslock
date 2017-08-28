@@ -60,7 +60,7 @@ fu! s:is_active(mode) abort "{{{1
     if a:mode == 'i'
         return exists('#my_capslock')
     else
-        return maparg('a', a:mode) ==# 'A'
+        return maparg('a', 'c') ==# 'A'
     endif
 endfu
 
