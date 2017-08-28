@@ -1,5 +1,5 @@
 fu! CapsLock_stl() abort "{{{1
-    return s:is_active('i') ? '[Caps]' : ''
+    return s:is_capslock_active('i') ? '[Caps]' : ''
 endfu
 
 fu! s:capslock_insert_leave() abort "{{{1
@@ -12,10 +12,10 @@ fu! s:capslock_insert_leave() abort "{{{1
     "                                     but not if we've hit `C-l` from insert mode
         return
     endif
-    call s:disable('i', 0)
+    call s:disable_capslock('i', 0)
 endfu
 
-fu! s:disable(mode, permanently) abort "{{{1
+fu! s:disable_capslock(mode, permanently) abort "{{{1
     if a:mode == 'i'
         au! my_capslock
         aug! my_capslock
@@ -37,12 +37,12 @@ fu! s:disable(mode, permanently) abort "{{{1
     redraws
 endfu
 
-fu! s:enable(mode, permanently) abort "{{{1
+fu! s:enable_capslock(mode, permanently) abort "{{{1
     if a:mode == 'i'
         augroup my_capslock
             au!
             au InsertLeave   * call s:capslock_insert_leave()
-            au InsertCharPre * if s:is_active('i')
+            au InsertCharPre * if s:is_capslock_active('i')
                             \|     let v:char = v:char ==# tolower(v:char)
                             \?                      toupper(v:char)
                             \:                      tolower(v:char)
@@ -63,7 +63,7 @@ fu! s:enable(mode, permanently) abort "{{{1
     redraws
 endfu
 
-fu! s:is_active(mode) abort "{{{1
+fu! s:is_capslock_active(mode) abort "{{{1
     if a:mode == 'i'
         return exists('#my_capslock')
     elseif a:mode == 'c'
@@ -73,6 +73,6 @@ endfu
 
 fu! capslock#toggle(mode, ...) abort "{{{1
     let permanently = a:0
-    call s:{s:is_active(a:mode) ? 'disable' : 'enable'}(a:mode, permanently)
+    call s:{s:is_capslock_active(a:mode) ? 'disable' : 'enable'}_capslock(a:mode, permanently)
     return ''
 endfu
