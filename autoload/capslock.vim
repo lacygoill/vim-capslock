@@ -5,7 +5,7 @@ if exists('g:auto_loaded_capslock')
 endif
 let g:auto_loaded_capslock = 1
 
-fu! CapsLock_stl() abort "{{{1
+fu! capslock#status() abort "{{{1
     return s:is_capslock_active('i') ? '[Caps]' : ''
 endfu
 
