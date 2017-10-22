@@ -9,7 +9,7 @@ let g:auto_loaded_capslock = 1
 
 augroup disable_capslock_on_command_line
     au!
-    au CmdLineLeave : call s:disable_capslock('c', 1)
+    au CmdlineLeave : call s:disable_capslock('c', 1)
 augroup END
 
 " Functions {{{1
