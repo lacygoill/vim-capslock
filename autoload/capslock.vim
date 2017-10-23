@@ -59,8 +59,8 @@ fu! s:enable_capslock(mode, permanently) abort "{{{2
             au InsertLeave   * call s:capslock_insert_leave()
             au InsertCharPre * if s:is_capslock_active('i')
                             \|     let v:char = v:char ==# tolower(v:char)
-                            \?                      toupper(v:char)
-                            \:                      tolower(v:char)
+                            \                 ?     toupper(v:char)
+                            \                 :     tolower(v:char)
                             \| endif
         augroup END
 
