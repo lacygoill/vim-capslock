@@ -1,7 +1,7 @@
-if exists('g:auto_loaded_capslock')
+if exists('g:autoloaded_capslock')
     finish
 endif
-let g:auto_loaded_capslock = 1
+let g:autoloaded_capslock = 1
 
 " Autocmd {{{1
 
