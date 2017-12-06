@@ -67,8 +67,8 @@ fu! s:enable_capslock(mode, permanently) abort "{{{2
     elseif a:mode == 'c'
         let i = char2nr('A')
         while i <= char2nr('Z')
-            exe 'cno <buffer> '.nr2char(i,1).' '.nr2char(i+32,1)
-            exe 'cno <buffer> '.nr2char(i+32,1).' '.nr2char(i,1)
+            exe 'cno  <buffer>  '.nr2char(i,1).' '.nr2char(i+32,1)
+            exe 'cno  <buffer>  '.nr2char(i+32,1).' '.nr2char(i,1)
             let i += 1
         endwhile
     endif
