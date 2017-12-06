@@ -3,9 +3,9 @@ if exists('g:loaded_capslock')
 endif
 let g:loaded_capslock = 1
 
-cno            <c-x>l    <c-r>=capslock#toggle('c')<cr>
-ino <silent>   <c-l>     <c-r>=capslock#toggle('i')<cr>
-nno <silent>  c<c-l>    :<c-u>call capslock#toggle('i', 1)<cr>
-"                                                       │
-"               flag:  make capslock persist            ┘
-"                      even after we leave insert mode
+cno         <unique>   <c-x>l    <c-r>=capslock#toggle('c')<cr>
+ino <silent><unique>   <c-l>     <c-r>=capslock#toggle('i')<cr>
+nno <silent><unique>  c<c-l>    :<c-u>call capslock#toggle('i', 1)<cr>
+"                                                               │
+"                       flag:  make capslock persist            ┘
+"                              even after we leave insert mode
