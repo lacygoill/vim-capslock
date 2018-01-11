@@ -1,3 +1,8 @@
+if exists('g:autoloaded_capslock')
+    finish
+endif
+let g:autoloaded_capslock = 1
+
 " Autocmd {{{1
 
 augroup disable_capslock_on_command_line
