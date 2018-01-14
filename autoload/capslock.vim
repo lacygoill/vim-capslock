@@ -1,7 +1,3 @@
-fu! capslock#status() abort "{{{1
-    return s:is_capslock_active('i') ? '[Caps]' : ''
-endfu
-
 fu! s:capslock_insert_leave() abort "{{{1
     " If we're permanently in capslock mode, don't do anything.
     if get(b:, 'capslock_permanently', 0)
@@ -69,6 +65,10 @@ fu! s:is_capslock_active(mode) abort "{{{1
     elseif a:mode == 'c'
         return maparg('a', 'c') ==# 'A'
     endif
+endfu
+
+fu! capslock#status() abort "{{{1
+    return s:is_capslock_active('i') ? '[Caps]' : ''
 endfu
 
 fu! capslock#toggle(mode, ...) abort "{{{1
