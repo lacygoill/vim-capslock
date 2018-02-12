@@ -12,14 +12,14 @@ fu! s:capslock_insert_leave() abort "{{{1
 endfu
 
 fu! capslock#disable(mode, permanently) abort "{{{1
-    if a:mode == 'i'
+    if a:mode is# 'i'
         au! my_capslock
         aug! my_capslock
         if a:permanently
             unlet! b:capslock_permanently
         endif
 
-    elseif a:mode == 'c'
+    elseif a:mode is# 'c'
         let i = char2nr('A')
         while i <= char2nr('Z')
              sil! exe 'cunmap <buffer> '.nr2char(i,1)
@@ -34,12 +34,12 @@ fu! capslock#disable(mode, permanently) abort "{{{1
 endfu
 
 fu! s:enable(mode, permanently) abort "{{{1
-    if a:mode == 'i'
+    if a:mode is# 'i'
         augroup my_capslock
             au!
             au InsertLeave   * call s:capslock_insert_leave()
             au InsertCharPre * if s:is_capslock_active('i')
-                            \|     let v:char = v:char ==# tolower(v:char)
+                            \|     let v:char = v:char is# tolower(v:char)
                             \                 ?     toupper(v:char)
                             \                 :     tolower(v:char)
                             \| endif
@@ -47,7 +47,7 @@ fu! s:enable(mode, permanently) abort "{{{1
 
         let b:capslock_permanently = a:permanently
 
-    elseif a:mode == 'c'
+    elseif a:mode is# 'c'
         let i = char2nr('A')
         while i <= char2nr('Z')
             exe 'cno  <buffer>  '.nr2char(i,1).' '.nr2char(i+32,1)
@@ -60,10 +60,10 @@ fu! s:enable(mode, permanently) abort "{{{1
 endfu
 
 fu! s:is_capslock_active(mode) abort "{{{1
-    if a:mode == 'i'
+    if a:mode is# 'i'
         return exists('#my_capslock')
-    elseif a:mode == 'c'
-        return maparg('a', 'c') ==# 'A'
+    elseif a:mode is# 'c'
+        return maparg('a', 'c') is# 'A'
     endif
 endfu
 
