@@ -38,10 +38,10 @@ fu! s:enable(mode, permanently) abort "{{{1
             au!
             au InsertLeave   * call s:capslock_insert_leave()
             au InsertCharPre * if s:is_capslock_active('i')
-                            \|     let v:char = v:char is# tolower(v:char)
-                            \                 ?     toupper(v:char)
-                            \                 :     tolower(v:char)
-                            \| endif
+                           \ |     let v:char = v:char is# tolower(v:char)
+                           \                  ?     toupper(v:char)
+                           \                  :     tolower(v:char)
+                           \ | endif
         augroup END
 
         let b:capslock_permanently = a:permanently
