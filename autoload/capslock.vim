@@ -21,7 +21,6 @@ fu! capslock#disable(mode, permanently) abort "{{{1
         " Since the capslock mode is local to a buffer, there's no need to update
         " all statuslines. Hence, no bang after `:redrawstatus`.
         redraws
-
     elseif a:mode is# 'c'
         let i = char2nr('A')
         while i <= char2nr('Z')
