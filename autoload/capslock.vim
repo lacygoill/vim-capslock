@@ -13,8 +13,15 @@ endfu
 
 fu! capslock#disable(mode, permanently) abort "{{{1
     if a:mode is# 'i'
+        " Leave this block at the very beginning of the function.{{{
+        "
+        " If an error occurred in the function,  because of `abort`, the rest of the
+        " statements would not be processed.
+        " We want our autocmd to be cleared no matter what.
+        "}}}
         au! my_capslock
         aug! my_capslock
+
         if a:permanently
             unlet! b:capslock_permanently
         endif
