@@ -28,7 +28,19 @@ fu! capslock#disable(mode, permanently) abort "{{{1
         " Since the capslock mode is local to a buffer, there's no need to update
         " all statuslines. Hence, no bang after `:redrawstatus`.
         redraws
-    elseif a:mode is# 'c'
+
+    " Why `!empty(...)`?{{{
+    "
+    " Otherwise, when we debug Vim (`:set vbs=2 vfile=/tmp/log`),
+    " the logfile contains too many errors:
+    "
+    "     E31: No such mapping
+    "     Error detected while processing function capslock#disable:
+    "
+    " This creates way too much noise, and makes us lose time finding what we're
+    " really looking for.
+    "}}}
+    elseif a:mode is# 'c' && !empty(maparg('a', 'c'))
         let i = char2nr('A')
         while i <= char2nr('Z')
              sil! exe 'cunmap <buffer> '.nr2char(i,1)
