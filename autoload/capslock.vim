@@ -25,9 +25,6 @@ fu! capslock#disable(mode, permanently) abort "{{{1
         if a:permanently
             unlet! b:capslock_permanently
         endif
-        " Since the capslock mode is local to a buffer, there's no need to update
-        " all statuslines. Hence, no bang after `:redrawstatus`.
-        redraws
 
     " Why `!empty(...)`?{{{
     "
@@ -48,6 +45,10 @@ fu! capslock#disable(mode, permanently) abort "{{{1
             let i += 1
         endwhile
     endif
+
+    " Since the capslock mode is local to a buffer, there's no need to update
+    " all statuslines. Hence, no bang after `:redrawstatus`.
+    redraws
 endfu
 
 fu! s:enable(mode, permanently) abort "{{{1
@@ -85,7 +86,7 @@ fu! s:is_capslock_active(mode) abort "{{{1
 endfu
 
 fu! capslock#status() abort "{{{1
-    return s:is_capslock_active('i') ? '[Caps]' : ''
+    return s:is_capslock_active('i') || s:is_capslock_active('c') ? '[Caps]' : ''
 endfu
 
 fu! capslock#toggle(mode, ...) abort "{{{1
