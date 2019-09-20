@@ -21,11 +21,12 @@ fu! capslock#disable(mode, permanently) abort "{{{1
         "}}}
         au! my_capslock
         aug! my_capslock
-
         if a:permanently
             unlet! b:capslock_permanently
         endif
-
+        " Since the capslock mode is local to a buffer, there's no need to update
+        " all statuslines. Hence, no bang after `:redrawstatus`.
+        redraws
     " Why `!empty(...)`?{{{
     "
     " Otherwise, when we debug Vim (`:set vbs=2 vfile=/tmp/log`),
@@ -44,11 +45,27 @@ fu! capslock#disable(mode, permanently) abort "{{{1
              sil! exe 'cunmap <buffer> '.nr2char(i+32,1)
             let i += 1
         endwhile
+        redraws
     endif
-
-    " Since the capslock mode is local to a buffer, there's no need to update
-    " all statuslines. Hence, no bang after `:redrawstatus`.
-    redraws
+    " Do *not* move `:redraws` outside the `if` block to put it here.{{{
+    "
+    " It would make the screen "flash" in some circumstances.
+    " For  example, when  you press  `gl`  to count  the  number of  lines in  a
+    " function, or `SPC p` to format a paragraph.
+    "
+    " This is because  those mappings enter the command-line to  run a function,
+    " and vim-capslock has installed this autocmd:
+    "
+    "     au CmdlineLeave : call capslock#disable('c', 1)
+    "
+    " As a result, `:redraws` would be  run UNconditionally whenever one of your
+    " mapping enters the command-line, which may be undesirable.
+    "
+    " ---
+    "
+    " This kind of issue could be fixed by using the argument `<cmd>` in our mappings:
+    " https://github.com/vim/vim/issues/4784
+    "}}}
 endfu
 
 fu! s:enable(mode, permanently) abort "{{{1
