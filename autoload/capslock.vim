@@ -2,10 +2,10 @@ fu! s:capslock_insert_leave() abort "{{{1
     " If we're permanently in capslock mode, don't do anything.
     if get(b:, 'capslock_permanently', 0)
     "                                  │
-    "                                  └─ we're not by default:
-    "                                     we're permanently in capslock mode,
-    "                                     IFF we hit `c C-l` from normal mode,
-    "                                     but not if we've hit `C-l` from insert mode
+    "                                  └ we're not by default:
+    "                                    we're permanently in capslock mode,
+    "                                    IFF we hit `c C-l` from normal mode,
+    "                                    but not if we've hit `C-l` from insert mode
         return
     endif
     call capslock#disable('i', 0)
@@ -49,7 +49,7 @@ fu! capslock#disable(mode, permanently) abort "{{{1
     endif
     " Do *not* move `:redraws` outside the `if` block to put it here.{{{
     "
-    " It would make the screen "flash" in some circumstances.
+    " It would make the screen flicker in some circumstances.
     " For  example, when  you press  `gl`  to count  the  number of  lines in  a
     " function, or `SPC p` to format a paragraph.
     "
