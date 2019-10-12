@@ -1,4 +1,4 @@
-fu! s:capslock_insert_leave() abort "{{{1
+fu s:capslock_insert_leave() abort "{{{1
     " If we're permanently in capslock mode, don't do anything.
     if get(b:, 'capslock_permanently', 0)
     "                                  │
@@ -11,7 +11,7 @@ fu! s:capslock_insert_leave() abort "{{{1
     call capslock#disable('i', 0)
 endfu
 
-fu! capslock#disable(mode, permanently) abort "{{{1
+fu capslock#disable(mode, permanently) abort "{{{1
     if a:mode is# 'i'
         " Leave this block at the very beginning of the function.{{{
         "
@@ -68,7 +68,7 @@ fu! capslock#disable(mode, permanently) abort "{{{1
     "}}}
 endfu
 
-fu! s:enable(mode, permanently) abort "{{{1
+fu s:enable(mode, permanently) abort "{{{1
     if a:mode is# 'i'
         augroup my_capslock
             au!
@@ -94,7 +94,7 @@ fu! s:enable(mode, permanently) abort "{{{1
     redraws
 endfu
 
-fu! s:is_capslock_active(mode) abort "{{{1
+fu s:is_capslock_active(mode) abort "{{{1
     if a:mode is# 'i'
         return exists('#my_capslock')
     elseif a:mode is# 'c'
@@ -102,11 +102,11 @@ fu! s:is_capslock_active(mode) abort "{{{1
     endif
 endfu
 
-fu! capslock#status() abort "{{{1
+fu capslock#status() abort "{{{1
     return s:is_capslock_active('i') || s:is_capslock_active('c') ? '[Caps]' : ''
 endfu
 
-fu! capslock#toggle(mode, ...) abort "{{{1
+fu capslock#toggle(mode, ...) abort "{{{1
     let permanently = a:0
     call call(s:is_capslock_active(a:mode) ? 'capslock#disable' : 's:enable', [a:mode, permanently])
     return ''
