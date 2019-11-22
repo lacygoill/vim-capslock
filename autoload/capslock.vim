@@ -21,8 +21,7 @@ fu capslock#toggle(mode) abort "{{{2
         else
             call s:disable('i')
         endif
-        " don't use `:redraw[st]`: https://github.com/vim/vim/issues/5256
-        let &ro = &ro
+        redraws | redrawt
     elseif a:mode is# 'c'
         let s:cmdline_caps = ! s:cmdline_caps
         if s:cmdline_caps
