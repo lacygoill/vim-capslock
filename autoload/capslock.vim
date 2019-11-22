@@ -26,11 +26,11 @@ fu capslock#toggle(mode) abort "{{{2
         let s:cmdline_caps = ! s:cmdline_caps
         if s:cmdline_caps
             call s:enable('c')
+            au CmdlineLeave [^=] ++once call s:disable('c')
         else
             call s:disable('c')
         endif
         redraws
-        au CmdlineLeave * ++once call s:disable('c')
     endif
     return ''
 endfu
@@ -48,7 +48,7 @@ fu s:enable(mode) abort "{{{2
     if a:mode is# 'i'
         augroup my_capslock
             au!
-            au InsertLeave   * call s:maybe_disable_on_insert_leave()
+            au InsertLeave   * if s:insert_caps != 2 | call s:disable('i') | endif
             au InsertCharPre * if s:insert_caps
                            \ |     let v:char = v:char is# tolower(v:char)
                            \                  ?     toupper(v:char)
@@ -67,7 +67,7 @@ fu s:enable(mode) abort "{{{2
 endfu
 
 fu s:disable(mode) abort "{{{2
-    if a:mode is# 'i'
+    if a:mode is# 'i' && exists('#my_capslock')
         " Leave this block at the very beginning of the function.{{{
         "
         " If an error occurred in the function,  because of `abort`, the rest of the
@@ -83,17 +83,6 @@ fu s:disable(mode) abort "{{{2
         " If that happens, we need to make sure that the variable is updated.
         "}}}
         let s:insert_caps = 0
-    " Why `!empty(...)`?{{{
-    "
-    " Otherwise, when we debug Vim (`:set vbs=2 vfile=/tmp/log`),
-    " the logfile contains too many errors:
-    "
-    "     E31: No such mapping~
-    "     Error detected while processing function <SNR>123_disable:~
-    "
-    " This creates way too much noise, and makes us lose time finding what we're
-    " really looking for.
-    "}}}
     elseif a:mode is# 'c' && !empty(maparg('a', 'c'))
         let i = char2nr('A')
         while i <= char2nr('Z')
@@ -103,10 +92,5 @@ fu s:disable(mode) abort "{{{2
         endwhile
         let s:cmdline_caps = 0
     endif
-endfu
-
-fu s:maybe_disable_on_insert_leave() abort "{{{2
-    if s:insert_caps == 2 | return | endif
-    call s:disable('i')
 endfu
 
