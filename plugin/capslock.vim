@@ -4,7 +4,7 @@ endif
 let g:loaded_capslock = 1
 
 " do *not* name this augroup `my_capslock`; we already use this name in `autoload/`
-augroup capslock_flag
+augroup hoist_caps
     au!
     " In theory, the global capslock flag is not very volatile, so we should give it a low priority.{{{
     "
@@ -17,8 +17,8 @@ augroup capslock_flag
     "    - first `C-l`: global flag temporarily displayed
     "    - second `C-l`: capslock disabled, and no flag anywhere (status line, tab line)
     "}}}
-    au User MyFlags call statusline#hoist('global', '%{capslock#status("global")}', 45)
-    au User MyFlags call statusline#hoist('buffer', '%-7{capslock#status("buffer")}', 52)
+    au User MyFlags call statusline#hoist('global', '%{capslock#status("global")}', 35)
+    au User MyFlags call statusline#hoist('buffer', '%{capslock#status("buffer")}', 55)
 augroup END
 
 cno <unique> <c-x>l <c-r>=capslock#toggle('c')<cr>
