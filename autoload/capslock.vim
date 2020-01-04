@@ -23,7 +23,7 @@ fu capslock#toggle(mode) abort "{{{2
         endif
         redraws | redrawt
     elseif a:mode is# 'c'
-        let s:cmdline_caps = ! s:cmdline_caps
+        let s:cmdline_caps = !s:cmdline_caps
         if s:cmdline_caps
             call s:enable('c')
             au CmdlineLeave [^=] ++once call s:disable('c')
