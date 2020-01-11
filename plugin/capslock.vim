@@ -17,8 +17,8 @@ augroup hoist_caps
     "    - first `C-l`: global flag temporarily displayed
     "    - second `C-l`: capslock disabled, and no flag anywhere (status line, tab line)
     "}}}
-    au User MyFlags call statusline#hoist('global', '%{capslock#status("global")}', 35)
-    au User MyFlags call statusline#hoist('buffer', '%{capslock#status("buffer")}', 55)
+    au User MyFlags call statusline#hoist('global', '%{capslock#status("global")}', 25)
+    au User MyFlags call statusline#hoist('buffer', '%{capslock#status("buffer")}', 25)
 augroup END
 
 cno <unique> <c-x>l <c-r>=capslock#toggle('c')<cr>
