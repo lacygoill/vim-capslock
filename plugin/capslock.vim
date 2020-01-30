@@ -19,9 +19,9 @@ augroup hoist_caps
     "}}}
     let s:sfile = expand('<sfile>')..':'
     au User MyFlags call statusline#hoist('global',
-        \ '%{capslock#status("global")}', 25, s:sfile..expand('<sflnum>'))
+        \ '%{capslock#status("global")}', 15, s:sfile..expand('<sflnum>'))
     au User MyFlags call statusline#hoist('buffer',
-        \ '%{capslock#status("buffer")}', 25, s:sfile..expand('<sflnum>'))
+        \ '%{capslock#status("buffer")}', 15, s:sfile..expand('<sflnum>'))
 augroup END
 
 cno <unique> <c-x>l <c-r>=capslock#toggle('c')<cr>
