@@ -46,8 +46,7 @@ endfu
 " Core {{{1
 fu s:enable(mode) abort "{{{2
     if a:mode is# 'i'
-        augroup my_capslock
-            au!
+        augroup my_capslock | au!
             au InsertLeave   * if s:insert_caps != 2 | call s:disable('i') | endif
             au InsertCharPre * if s:insert_caps
                            \ |     let v:char = v:char is# tolower(v:char)

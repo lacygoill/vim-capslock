@@ -4,8 +4,7 @@ endif
 let g:loaded_capslock = 1
 
 " do *not* name this augroup `my_capslock`; we already use this name in `autoload/`
-augroup hoist_caps
-    au!
+augroup hoist_caps | au!
     " In theory, the global capslock flag is not very volatile, so we should give it a low priority.{{{
     "
     " Something like 15.
