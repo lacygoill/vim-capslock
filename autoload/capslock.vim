@@ -22,6 +22,7 @@ fu capslock#toggle(mode) abort "{{{2
             call s:disable('i')
         endif
         redraws | redrawt
+        return ''
     elseif a:mode is# 'c'
         let s:cmdline_caps = !s:cmdline_caps
         if s:cmdline_caps
@@ -31,8 +32,8 @@ fu capslock#toggle(mode) abort "{{{2
             call s:disable('c')
         endif
         redraws
+        return getcmdline()
     endif
-    return ''
 endfu
 
 fu capslock#status(scope) abort "{{{2

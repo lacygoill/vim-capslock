@@ -23,6 +23,6 @@ augroup hoist_caps | au!
         \ '%{capslock#status("buffer")}', 25, s:sfile..expand('<sflnum>'))
 augroup END
 
-cno <unique> <c-x>l <c-r>=capslock#toggle('c')<cr>
+cno <unique> <c-x>l <c-\>e capslock#toggle('c')<cr>
 " see: `:h 'cot /ctrl-l`.
 ino <expr><silent><unique> <c-l> pumvisible() ? '<c-l>' : capslock#toggle('i')
