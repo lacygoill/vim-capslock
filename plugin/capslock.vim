@@ -16,11 +16,11 @@ augroup hoist_caps | au!
     "    - first `C-l`: global flag temporarily displayed
     "    - second `C-l`: capslock disabled, and no flag anywhere (status line, tab line)
     "}}}
-    let s:sfile = expand('<sfile>')..':'
+    let s:sfile = expand('<sfile>') .. ':'
     au User MyFlags call statusline#hoist('global',
-        \ '%{capslock#status("global")}', 15, s:sfile..expand('<sflnum>'))
+        \ '%{capslock#status("global")}', 15, s:sfile .. expand('<sflnum>'))
     au User MyFlags call statusline#hoist('buffer',
-        \ '%{capslock#status("buffer")}', 25, s:sfile..expand('<sflnum>'))
+        \ '%{capslock#status("buffer")}', 25, s:sfile .. expand('<sflnum>'))
 augroup END
 
 cno <unique> <c-x>l <c-\>e capslock#toggle('c')<cr>

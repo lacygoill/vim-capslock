@@ -50,17 +50,17 @@ fu s:enable(mode) abort "{{{2
         augroup my_capslock | au!
             au InsertLeave   * if s:insert_caps != 2 | call s:disable('i') | endif
             au InsertCharPre * if s:insert_caps
-                           \ |     let v:char = v:char is# tolower(v:char)
-                           \                  ?     toupper(v:char)
-                           \                  :     tolower(v:char)
-                           \ | endif
+                \ | let v:char = v:char is# tolower(v:char)
+                \   ?     toupper(v:char)
+                \   :     tolower(v:char)
+                \ | endif
         augroup END
 
     elseif a:mode is# 'c'
         let i = char2nr('A')
         while i <= char2nr('Z')
-            exe 'cno <buffer> '..nr2char(i,1)..' '..nr2char(i+32,1)
-            exe 'cno <buffer> '..nr2char(i+32,1)..' '..nr2char(i,1)
+            exe 'cno <buffer> ' .. nr2char(i) .. ' ' .. nr2char(i + 32)
+            exe 'cno <buffer> ' .. nr2char(i + 32) .. ' ' .. nr2char(i)
             let i += 1
         endwhile
     endif
@@ -76,18 +76,18 @@ fu s:disable(mode) abort "{{{2
         "}}}
         au! my_capslock
         aug! my_capslock
-        " We already update the value in `#toggle()`. Why do it here again?{{{
+        " We already update the value in `#toggle()`.  Why do it here again?{{{
         "
         " `#toggle()` is only invoked when we use our mapping.
         " But `s:disable()` may also be invoked automatically by an autocmd.
         " If that happens, we need to make sure that the variable is updated.
         "}}}
         let s:insert_caps = 0
-    elseif a:mode is# 'c' && !empty(maparg('a', 'c'))
+    elseif a:mode is# 'c' && !maparg('a', 'c')->empty()
         let i = char2nr('A')
         while i <= char2nr('Z')
-             sil! exe 'cunmap <buffer> '..nr2char(i,1)
-             sil! exe 'cunmap <buffer> '..nr2char(i+32,1)
+             sil! exe 'cunmap <buffer> ' .. nr2char(i)
+             sil! exe 'cunmap <buffer> ' .. nr2char(i + 32)
             let i += 1
         endwhile
         let s:cmdline_caps = 0
