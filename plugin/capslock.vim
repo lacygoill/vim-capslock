@@ -25,4 +25,4 @@ augroup END
 
 cno <unique> <c-x>l <c-\>e capslock#toggle('c')<cr>
 " see: `:h 'cot /ctrl-l`.
-ino <expr><silent><unique> <c-l> pumvisible() ? '<c-l>' : capslock#toggle('i')
+ino <expr><unique> <c-l> pumvisible() ? '<c-l>' : capslock#toggle('i')
