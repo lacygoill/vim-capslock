@@ -47,7 +47,7 @@ endfu
 " Core {{{1
 fu s:enable(mode) abort "{{{2
     if a:mode is# 'i'
-        augroup my_capslock | au!
+        augroup MyCapslock | au!
             au InsertLeave   * if s:insert_caps != 2 | call s:disable('i') | endif
             au InsertCharPre * if s:insert_caps
                 \ | let v:char = v:char is# tolower(v:char)
@@ -67,15 +67,15 @@ fu s:enable(mode) abort "{{{2
 endfu
 
 fu s:disable(mode) abort "{{{2
-    if a:mode is# 'i' && exists('#my_capslock')
+    if a:mode is# 'i' && exists('#MyCapslock')
         " Leave this block at the very beginning of the function.{{{
         "
         " If an error occurred in the function,  because of `abort`, the rest of the
         " statements would not be processed.
         " We want our autocmd to be cleared no matter what.
         "}}}
-        au! my_capslock
-        aug! my_capslock
+        au! MyCapslock
+        aug! MyCapslock
         " We already update the value in `#toggle()`.  Why do it here again?{{{
         "
         " `#toggle()` is only invoked when we use our mapping.
