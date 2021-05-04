@@ -14,7 +14,7 @@ var cmdline_caps: bool = false
 # Interface {{{1
 def capslock#toggle(mode: string): string #{{{2
     if mode == 'i'
-        insert_caps += 1
+        ++insert_caps
         insert_caps %= 3
         if insert_caps != 0
             Enable('i')
@@ -63,7 +63,7 @@ def Enable(mode: string) #{{{2
         while i <= char2nr('Z')
             exe 'cno <buffer> ' .. nr2char(i) .. ' ' .. nr2char(i + 32)
             exe 'cno <buffer> ' .. nr2char(i + 32) .. ' ' .. nr2char(i)
-            i += 1
+            ++i
         endwhile
     endif
 enddef
@@ -88,9 +88,9 @@ def Disable(mode: string) #{{{2
     elseif mode == 'c' && !maparg('a', 'c')->empty()
         var i: number = char2nr('A')
         while i <= char2nr('Z')
-             sil! exe 'cunmap <buffer> ' .. nr2char(i)
-             sil! exe 'cunmap <buffer> ' .. nr2char(i + 32)
-            i += 1
+             exe 'sil! cunmap <buffer> ' .. nr2char(i)
+             exe 'sil! cunmap <buffer> ' .. nr2char(i + 32)
+            ++i
         endwhile
         cmdline_caps = false
     endif
