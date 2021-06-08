@@ -24,5 +24,5 @@ augroup HoistCaps | au!
 augroup END
 
 cno <unique> <c-x>l <c-\>e capslock#toggle('c')<cr>
-# see: `:h 'cot /ctrl-l`.
+# see: `:h 'completeopt /ctrl-l`.
 ino <expr><unique> <c-l> pumvisible() ? '<c-l>' : capslock#toggle('i')
