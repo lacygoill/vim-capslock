@@ -50,7 +50,7 @@ enddef
 def Enable(mode: string) #{{{2
     if mode == 'i'
         augroup MyCapslock | au!
-            au InsertLeave   * if insert_caps != 2
+            au InsertLeave * if insert_caps != 2
                 |     Disable('i')
                 | endif
             au InsertCharPre * if insert_caps != 0
