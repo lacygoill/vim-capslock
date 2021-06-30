@@ -4,7 +4,7 @@ if exists('loaded') | finish | endif
 var loaded = true
 
 # do *not* name this augroup `MyCapslock`; we already use this name in `autoload/`
-augroup HoistCaps | au!
+augroup HoistCaps | autocmd!
     # In theory, the global capslock flag is not very volatile, so we should give it a low priority.{{{
     #
     # Something like 15.
@@ -17,12 +17,12 @@ augroup HoistCaps | au!
     #    - second `C-l`: capslock disabled, and no flag anywhere (status line, tab line)
     #}}}
     const SFILE: string = expand('<sfile>:p') .. ':'
-    au User MyFlags statusline#hoist('global',
+    autocmd User MyFlags statusline#hoist('global',
         \ '%{capslock#status("global")}', 15, SFILE .. expand('<sflnum>'))
-    au User MyFlags statusline#hoist('buffer',
+    autocmd User MyFlags statusline#hoist('buffer',
         \ '%{capslock#status("buffer")}', 25, SFILE .. expand('<sflnum>'))
 augroup END
 
-cno <unique> <c-x>l <c-\>e capslock#toggle('c')<cr>
-# see: `:h 'completeopt /ctrl-l`.
-ino <expr><unique> <c-l> pumvisible() ? '<c-l>' : capslock#toggle('i')
+cnoremap <unique> <C-X>l <C-\>e capslock#toggle('c')<CR>
+# see: `:help 'completeopt /ctrl-l`.
+inoremap <expr><unique> <C-L> pumvisible() ? '<C-L>' : capslock#toggle('i')

@@ -21,18 +21,18 @@ def capslock#toggle(mode: string): string #{{{2
         else
             Disable('i')
         endif
-        redraws
-        redrawt
+        redrawstatus
+        redrawtabline
         return ''
     elseif mode == 'c'
         cmdline_caps = !cmdline_caps
         if cmdline_caps
             Enable('c')
-            au CmdlineLeave [^=] ++once Disable('c')
+            autocmd CmdlineLeave [^=] ++once Disable('c')
         else
             Disable('c')
         endif
-        redraws
+        redrawstatus
         return getcmdline()
     endif
     return ''
@@ -49,11 +49,11 @@ enddef
 # Core {{{1
 def Enable(mode: string) #{{{2
     if mode == 'i'
-        augroup MyCapslock | au!
-            au InsertLeave * if insert_caps != 2
+        augroup MyCapslock | autocmd!
+            autocmd InsertLeave * if insert_caps != 2
                 |     Disable('i')
                 | endif
-            au InsertCharPre * if insert_caps != 0
+            autocmd InsertCharPre * if insert_caps != 0
                 |     v:char = v:char == tolower(v:char) ? toupper(v:char) : tolower(v:char)
                 | endif
         augroup END
@@ -61,8 +61,8 @@ def Enable(mode: string) #{{{2
     elseif mode == 'c'
         var i: number = char2nr('A')
         while i <= char2nr('Z')
-            exe 'cno <buffer> ' .. nr2char(i) .. ' ' .. nr2char(i + 32)
-            exe 'cno <buffer> ' .. nr2char(i + 32) .. ' ' .. nr2char(i)
+            execute 'cnoremap <buffer> ' .. nr2char(i) .. ' ' .. nr2char(i + 32)
+            execute 'cnoremap <buffer> ' .. nr2char(i + 32) .. ' ' .. nr2char(i)
             ++i
         endwhile
     endif
@@ -76,8 +76,8 @@ def Disable(mode: string) #{{{2
         # statements would not be processed.
         # We want our autocmd to be cleared no matter what.
         #}}}
-        au! MyCapslock
-        aug! MyCapslock
+        autocmd! MyCapslock
+        augroup! MyCapslock
         # We already update the value in `#toggle()`.  Why do it here again?{{{
         #
         # `#toggle()` is only invoked when we use our mapping.
@@ -88,8 +88,8 @@ def Disable(mode: string) #{{{2
     elseif mode == 'c' && !maparg('a', 'c')->empty()
         var i: number = char2nr('A')
         while i <= char2nr('Z')
-             exe 'sil! cunmap <buffer> ' .. nr2char(i)
-             exe 'sil! cunmap <buffer> ' .. nr2char(i + 32)
+             execute 'silent! cunmap <buffer> ' .. nr2char(i)
+             execute 'silent! cunmap <buffer> ' .. nr2char(i + 32)
             ++i
         endwhile
         cmdline_caps = false
