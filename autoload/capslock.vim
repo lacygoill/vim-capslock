@@ -1,8 +1,5 @@
 vim9script noclear
 
-if exists('loaded') | finish | endif
-var loaded = true
-
 # Init {{{1
 
 # 0 = disabled, 1 = enabled until leaving insert mode, 2 = enabled permanently
